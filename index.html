@@ -13,11 +13,11 @@
     <p>🦜🌳 Listen to the call. Which hornbill is it?</p>
 
     <!-- Sound & Music Controls -->
-    <div id="controls">
-      <button id="playBtn">▶️ Play Call</button>
-      <button id="stopBtn">⏹️ Stop</button>
-      <button id="music-toggle">🔊 Background Music</button>
-    </div>
+<div class="controls">
+    <button id="playBtn">▶️ Play Call</button>
+    <button id="stopBtn">⏹️ Stop</button>
+    <button id="musicToggle">🔇 Mute Music</button>
+</div>
 
     <!-- Score and Attempts -->
     <div id="progress">Score: 0 | Attempts: 0</div>
@@ -32,9 +32,9 @@
   <!-- Script and Audio Elements -->
   <script src="script.js"></script>
 
-  <audio id="correct-sound" src="correct.mp3" preload="auto"></audio>
-  <audio id="wrong-sound" src="wrong.mp3" preload="auto"></audio>
-  <audio id="bg-music" src="bg-music.mp3" autoplay loop></audio>
+<audio id="bg-music" loop src="bg-music.mp3"></audio>
+<audio id="correct-sound" src="correct.mp3"></audio>
+<audio id="wrong-sound" src="wrong.mp3"></audio>
     
 </body>
 </html>
