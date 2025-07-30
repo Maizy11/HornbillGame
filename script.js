@@ -1,8 +1,8 @@
-let totalCorrect = 0;
-let totalRounds = 0;
+let score = 0;
+let attempts = 0;
 
 const bgMusic = document.getElementById("bg-music");
-bgMusic.volume = 0.2;
+bgMusic.volume = 0.3;
 
 const audio = new Audio();
 const choicesDiv = document.getElementById("choices");
@@ -22,12 +22,14 @@ const hornbills = [
 
 let currentHornbill = null;
 
-// Shuffle helper
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-// Load a new question
+function updateProgress() {
+  progressText.textContent = `Score: ${score} | Attempts: ${attempts}`;
+}
+
 function loadQuestion() {
   const shuffled = shuffle([...hornbills]);
   currentHornbill = shuffled[0];
@@ -38,16 +40,12 @@ function loadQuestion() {
   shuffled.forEach(hb => {
     const btn = document.createElement("button");
     btn.className = "hornbill-btn";
-    btn.innerHTML = `
-      <img src="${hb.image}" alt="${hb.name}" />
-      <span>${hb.name}</span>
-    `;
+    btn.innerHTML = `<img src="${hb.image}" alt="${hb.name}" /><span>${hb.name}</span>`;
     btn.onclick = () => checkAnswer(hb.name);
     choicesDiv.appendChild(btn);
   });
 }
 
-// Answer checking
 function checkAnswer(selected) {
   const correctSound = document.getElementById("correct-sound");
   const wrongSound = document.getElementById("wrong-sound");
@@ -56,39 +54,32 @@ function checkAnswer(selected) {
     resultDiv.textContent = "✅ Correct!";
     resultDiv.style.color = "green";
     correctSound.play();
-    totalCorrect++;
+    score++;
   } else {
     resultDiv.textContent = `❌ Oops! It was ${currentHornbill.name}.`;
     resultDiv.style.color = "red";
     wrongSound.play();
   }
 
-  totalRounds++;
-  progressText.textContent = `Score: ${totalCorrect} | Attempts: ${totalRounds}`;
+  attempts++;
+  updateProgress();
 
   setTimeout(loadQuestion, 2000);
 }
 
-// 🔊 PLAY Call Button
+// Event listeners
 document.getElementById("playBtn").addEventListener("click", () => {
-  // Play current hornbill sound
-  if (audio.src) {
-    audio.play();
-  }
-
-  // Start background music if not already
+  audio.play();
   if (bgMusic.paused) {
     bgMusic.play();
   }
 });
 
-// ⏹️ STOP Call
 document.getElementById("stopBtn").addEventListener("click", () => {
   audio.pause();
   audio.currentTime = 0;
 });
 
-// 🔇 Toggle Background Music
 document.getElementById("musicToggle").addEventListener("click", () => {
   if (bgMusic.paused) {
     bgMusic.play();
@@ -99,7 +90,6 @@ document.getElementById("musicToggle").addEventListener("click", () => {
   }
 });
 
-// 👇 Run after page is fully loaded (to avoid timing issues)
 window.addEventListener("DOMContentLoaded", () => {
   loadQuestion();
 });
