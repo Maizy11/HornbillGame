@@ -21,12 +21,12 @@ body::before {
 }
 
 .logo {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 100px;
-  height: auto;
-  z-index: 999;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+    height: auto;
+    z-index: 999;
 }
 
 .container {
@@ -125,4 +125,24 @@ h1.main-title {
   .logo {
     width: 60px;
   }
+}
+
+.title-container {
+    padding-top: 120px; /* Gives space below fixed logo */
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .title-container {
+        padding-top: 100px;
+    }
+
+    .logo {
+        width: 70px;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin-top: 10px;
+    }
 }
