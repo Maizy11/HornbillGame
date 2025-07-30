@@ -86,6 +86,28 @@ button {
     margin-top: 15px;
 }
 
+#progress {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 10px;
+    color: #3b5c2d;
+}
+
+#music-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #cfe9c8;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+
 @media screen and (max-width: 600px) {
     .hornbill-btn {
         width: 100%;
