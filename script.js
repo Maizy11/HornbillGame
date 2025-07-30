@@ -2,7 +2,7 @@ let score = 0;
 let attempts = 0;
 
 const bgMusic = document.getElementById("bg-music");
-bgMusic.volume = 0.3;
+bgMusic.volume = 0.2;
 
 const audio = new Audio();
 const choicesDiv = document.getElementById("choices");
