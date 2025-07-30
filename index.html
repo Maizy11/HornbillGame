@@ -7,37 +7,34 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <img src="YEI-logo.png" alt="YEI Logo" class="logo" />
-    <div class="container">
-        <h1>Borneo Hornbill Sound Match</h1>
-        <p>🦜🌳 Listen to the call. Which hornbill is it?</p>
+  <img src="YEI-logo.png" alt="YEI Logo" class="logo" />
+  <div class="container">
+    <h1>Borneo Hornbill Sound Match</h1>
+    <p>🦜🌳 Listen to the call. Which hornbill is it?</p>
 
-        <div class="buttons">
-            <button id="playBtn">🔊 Play Call</button>
-            <button id="stopBtn">⏹ Stop</button>
-        </div>
-
-        <div id="controls">
-        <button id="playBtn">▶️ Play Call</button>
-        <button id="stopBtn">⏹️ Stop</button>
-        <button id="music-toggle">🔇 Mute Music</button>
-</div>
-
-<div id="progress">Score: 0 | Attempts: 0</div>
-        
-        <div class="choices" id="choices"></div>
-
-        <div id="result"></div>
-        
-        <div id="progress">0 of 8 correct</div>
+    <!-- Sound & Music Controls -->
+    <div id="controls">
+      <button id="playBtn">▶️ Play Call</button>
+      <button id="stopBtn">⏹️ Stop</button>
+      <button id="music-toggle">🔊 Background Music</button>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Score and Attempts -->
+    <div id="progress">Score: 0 | Attempts: 0</div>
 
-    <audio id="correct-sound" src="correct.mp3" preload="auto"></audio>
-    <audio id="wrong-sound" src="wrong.mp3" preload="auto"></audio>
-    <audio id="bg-music" src="bg-music.mp3" autoplay loop></audio>
-     <button id="music-toggle">🔊</button>
+    <!-- Choices Appear Here -->
+    <div class="choices" id="choices"></div>
+
+    <!-- Result Feedback -->
+    <div id="result"></div>
+  </div>
+
+  <!-- Script and Audio Elements -->
+  <script src="script.js"></script>
+
+  <audio id="correct-sound" src="correct.mp3" preload="auto"></audio>
+  <audio id="wrong-sound" src="wrong.mp3" preload="auto"></audio>
+  <audio id="bg-music" src="bg-music.mp3" autoplay loop></audio>
     
 </body>
 </html>
