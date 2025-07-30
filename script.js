@@ -31,11 +31,11 @@ function updateProgress() {
 }
 
 function loadQuestion() {
-  const shuffled = shuffle([...hornbills]);
-  currentHornbill = shuffled[0];
+  currentHornbill = hornbills[Math.floor(Math.random() * hornbills.length)];
   audio.src = `${currentHornbill.file}.mp3`;
   resultDiv.textContent = "";
 
+  const shuffled = shuffle([...hornbills]);
   choicesDiv.innerHTML = "";
   shuffled.forEach(hb => {
     const btn = document.createElement("button");
@@ -45,6 +45,7 @@ function loadQuestion() {
     choicesDiv.appendChild(btn);
   });
 }
+
 
 function checkAnswer(selected) {
   const correctSound = document.getElementById("correct-sound");
