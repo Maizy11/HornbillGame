@@ -1,6 +1,12 @@
 let totalCorrect = 0;
 let totalRounds = 0;
 
+// Set up background music
+const bgMusic = document.getElementById("bg-music");
+bgMusic.volume = 0.2;
+bgMusic.play();
+
+// Hornbill list
 const hornbills = [
     { name: "Rhinoceros Hornbill", file: "rhinoceros", image: "rhinoceros.jpg" },
     { name: "Helmeted Hornbill", file: "helmeted", image: "helmeted.jpg" },
@@ -16,11 +22,14 @@ let currentHornbill = null;
 const audio = new Audio();
 const choicesDiv = document.getElementById("choices");
 const resultDiv = document.getElementById("result");
+const progressText = document.getElementById("progress");
 
+// Shuffle helper
 function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
+// Load a new question
 function loadQuestion() {
     const shuffled = shuffle([...hornbills]);
     currentHornbill = shuffled[0];
@@ -32,18 +41,18 @@ function loadQuestion() {
         const btn = document.createElement("button");
         btn.className = "hornbill-btn";
         btn.innerHTML = `
-      <img src="${hb.image}" alt="${hb.name}" />
-      <span>${hb.name}</span>
-    `;
+            <img src="${hb.image}" alt="${hb.name}" />
+            <span>${hb.name}</span>
+        `;
         btn.onclick = () => checkAnswer(hb.name);
         choicesDiv.appendChild(btn);
     });
 }
 
+// Answer checking
 function checkAnswer(selected) {
     const correctSound = document.getElementById("correct-sound");
     const wrongSound = document.getElementById("wrong-sound");
-    const progressText = document.getElementById("progress");
 
     if (selected === currentHornbill.name) {
         resultDiv.textContent = "✅ Correct!";
@@ -57,32 +66,27 @@ function checkAnswer(selected) {
     }
 
     totalRounds++;
-    progressText.textContent = `${totalCorrect} of ${totalRounds} correct`;
+    progressText.textContent = `Score: ${totalCorrect} | Attempts: ${totalRounds}`;
 
     setTimeout(loadQuestion, 2000);
 }
 
-
-document.getElementById("playBtn").addEventListener("click", () => {
-    audio.play();
-});
-
+// Stop button: stop the playing hornbill call
 document.getElementById("stopBtn").addEventListener("click", () => {
     audio.pause();
     audio.currentTime = 0;
 });
 
-loadQuestion();
-
-const bgMusic = document.getElementById("bg-music");
-const musicToggle = document.getElementById("music-toggle");
-
-musicToggle.addEventListener("click", () => {
+// Mute/unmute background music
+document.getElementById("musicToggle").addEventListener("click", () => {
     if (bgMusic.paused) {
         bgMusic.play();
-        musicToggle.textContent = "🔊";
+        document.getElementById("musicToggle").textContent = "🔇 Mute Music";
     } else {
         bgMusic.pause();
-        musicToggle.textContent = "🔇";
+        document.getElementById("musicToggle").textContent = "🎵 Unmute Music";
     }
 });
+
+// Load first question
+loadQuestion();
