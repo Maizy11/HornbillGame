@@ -1,4 +1,7 @@
-﻿const hornbills = [
+let totalCorrect = 0;
+let totalRounds = 0;
+
+const hornbills = [
     { name: "Rhinoceros Hornbill", file: "rhinoceros", image: "rhinoceros.jpg" },
     { name: "Helmeted Hornbill", file: "helmeted", image: "helmeted.jpg" },
     { name: "Wrinkled Hornbill", file: "wrinkled", image: "wrinkled.jpg" },
@@ -38,15 +41,27 @@ function loadQuestion() {
 }
 
 function checkAnswer(selected) {
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+    const progressText = document.getElementById("progress");
+
     if (selected === currentHornbill.name) {
         resultDiv.textContent = "✅ Correct!";
         resultDiv.style.color = "green";
+        correctSound.play();
+        totalCorrect++;
     } else {
         resultDiv.textContent = `❌ Oops! It was ${currentHornbill.name}.`;
         resultDiv.style.color = "red";
+        wrongSound.play();
     }
+
+    totalRounds++;
+    progressText.textContent = `${totalCorrect} of ${totalRounds} correct`;
+
     setTimeout(loadQuestion, 2000);
 }
+
 
 document.getElementById("playBtn").addEventListener("click", () => {
     audio.play();
@@ -58,3 +73,16 @@ document.getElementById("stopBtn").addEventListener("click", () => {
 });
 
 loadQuestion();
+
+const bgMusic = document.getElementById("bg-music");
+const musicToggle = document.getElementById("music-toggle");
+
+musicToggle.addEventListener("click", () => {
+    if (bgMusic.paused) {
+        bgMusic.play();
+        musicToggle.textContent = "🔊";
+    } else {
+        bgMusic.pause();
+        musicToggle.textContent = "🔇";
+    }
+});
