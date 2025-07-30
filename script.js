@@ -1,92 +1,105 @@
 let totalCorrect = 0;
 let totalRounds = 0;
 
-// Set up background music
 const bgMusic = document.getElementById("bg-music");
 bgMusic.volume = 0.2;
-bgMusic.play();
 
-// Hornbill list
-const hornbills = [
-    { name: "Rhinoceros Hornbill", file: "rhinoceros", image: "rhinoceros.jpg" },
-    { name: "Helmeted Hornbill", file: "helmeted", image: "helmeted.jpg" },
-    { name: "Wrinkled Hornbill", file: "wrinkled", image: "wrinkled.jpg" },
-    { name: "White-crowned Hornbill", file: "whitecrowned", image: "whitecrowned.jpg" },
-    { name: "Oriental Pied Hornbill", file: "orientalpied", image: "orientalpied.jpg" },
-    { name: "Bushy-crested Hornbill", file: "bushycrested", image: "bushycrested.jpg" },
-    { name: "Wreathed Hornbill", file: "wreathed", image: "wreathed.jpg" },
-    { name: "Black Hornbill", file: "black", image: "black.jpg" }
-];
-
-let currentHornbill = null;
 const audio = new Audio();
 const choicesDiv = document.getElementById("choices");
 const resultDiv = document.getElementById("result");
 const progressText = document.getElementById("progress");
 
+const hornbills = [
+  { name: "Rhinoceros Hornbill", file: "rhinoceros", image: "rhinoceros.jpg" },
+  { name: "Helmeted Hornbill", file: "helmeted", image: "helmeted.jpg" },
+  { name: "Wrinkled Hornbill", file: "wrinkled", image: "wrinkled.jpg" },
+  { name: "White-crowned Hornbill", file: "whitecrowned", image: "whitecrowned.jpg" },
+  { name: "Oriental Pied Hornbill", file: "orientalpied", image: "orientalpied.jpg" },
+  { name: "Bushy-crested Hornbill", file: "bushycrested", image: "bushycrested.jpg" },
+  { name: "Wreathed Hornbill", file: "wreathed", image: "wreathed.jpg" },
+  { name: "Black Hornbill", file: "black", image: "black.jpg" }
+];
+
+let currentHornbill = null;
+
 // Shuffle helper
 function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
+  return array.sort(() => Math.random() - 0.5);
 }
 
 // Load a new question
 function loadQuestion() {
-    const shuffled = shuffle([...hornbills]);
-    currentHornbill = shuffled[0];
-    audio.src = `${currentHornbill.file}.mp3`;
-    resultDiv.textContent = "";
+  const shuffled = shuffle([...hornbills]);
+  currentHornbill = shuffled[0];
+  audio.src = `${currentHornbill.file}.mp3`;
+  resultDiv.textContent = "";
 
-    choicesDiv.innerHTML = "";
-    shuffled.forEach(hb => {
-        const btn = document.createElement("button");
-        btn.className = "hornbill-btn";
-        btn.innerHTML = `
-            <img src="${hb.image}" alt="${hb.name}" />
-            <span>${hb.name}</span>
-        `;
-        btn.onclick = () => checkAnswer(hb.name);
-        choicesDiv.appendChild(btn);
-    });
+  choicesDiv.innerHTML = "";
+  shuffled.forEach(hb => {
+    const btn = document.createElement("button");
+    btn.className = "hornbill-btn";
+    btn.innerHTML = `
+      <img src="${hb.image}" alt="${hb.name}" />
+      <span>${hb.name}</span>
+    `;
+    btn.onclick = () => checkAnswer(hb.name);
+    choicesDiv.appendChild(btn);
+  });
 }
 
 // Answer checking
 function checkAnswer(selected) {
-    const correctSound = document.getElementById("correct-sound");
-    const wrongSound = document.getElementById("wrong-sound");
+  const correctSound = document.getElementById("correct-sound");
+  const wrongSound = document.getElementById("wrong-sound");
 
-    if (selected === currentHornbill.name) {
-        resultDiv.textContent = "✅ Correct!";
-        resultDiv.style.color = "green";
-        correctSound.play();
-        totalCorrect++;
-    } else {
-        resultDiv.textContent = `❌ Oops! It was ${currentHornbill.name}.`;
-        resultDiv.style.color = "red";
-        wrongSound.play();
-    }
+  if (selected === currentHornbill.name) {
+    resultDiv.textContent = "✅ Correct!";
+    resultDiv.style.color = "green";
+    correctSound.play();
+    totalCorrect++;
+  } else {
+    resultDiv.textContent = `❌ Oops! It was ${currentHornbill.name}.`;
+    resultDiv.style.color = "red";
+    wrongSound.play();
+  }
 
-    totalRounds++;
-    progressText.textContent = `Score: ${totalCorrect} | Attempts: ${totalRounds}`;
+  totalRounds++;
+  progressText.textContent = `Score: ${totalCorrect} | Attempts: ${totalRounds}`;
 
-    setTimeout(loadQuestion, 2000);
+  setTimeout(loadQuestion, 2000);
 }
 
-// Stop button: stop the playing hornbill call
+// 🔊 PLAY Call Button
+document.getElementById("playBtn").addEventListener("click", () => {
+  // Play current hornbill sound
+  if (audio.src) {
+    audio.play();
+  }
+
+  // Start background music if not already
+  if (bgMusic.paused) {
+    bgMusic.play();
+  }
+});
+
+// ⏹️ STOP Call
 document.getElementById("stopBtn").addEventListener("click", () => {
-    audio.pause();
-    audio.currentTime = 0;
+  audio.pause();
+  audio.currentTime = 0;
 });
 
-// Mute/unmute background music
+// 🔇 Toggle Background Music
 document.getElementById("musicToggle").addEventListener("click", () => {
-    if (bgMusic.paused) {
-        bgMusic.play();
-        document.getElementById("musicToggle").textContent = "🔇 Mute Music";
-    } else {
-        bgMusic.pause();
-        document.getElementById("musicToggle").textContent = "🎵 Unmute Music";
-    }
+  if (bgMusic.paused) {
+    bgMusic.play();
+    document.getElementById("musicToggle").textContent = "🔇 Mute Music";
+  } else {
+    bgMusic.pause();
+    document.getElementById("musicToggle").textContent = "🎵 Unmute Music";
+  }
 });
 
-// Load first question
-loadQuestion();
+// 👇 Run after page is fully loaded (to avoid timing issues)
+window.addEventListener("DOMContentLoaded", () => {
+  loadQuestion();
+});
